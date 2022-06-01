@@ -5,13 +5,21 @@ import {extend} from "@react-three/fiber"
 class MyCustomMaterial extends THREE.ShaderMaterial {
     constructor(){
         super({
-            uniforms:{},
+            uniforms:{
+                screenSize:{value: new THREE.Vector2(1,1)},
+            },
             vertexShader: `
                 varying vec2 vUv;
 
+                uniform vec2 screenSize;
+
                 void main() {
                     vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    vec3 pos = position;
+
+                    pos.xy *= screenSize;
+
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
                 }
             `,
             fragmentShader: `
@@ -25,5 +33,7 @@ class MyCustomMaterial extends THREE.ShaderMaterial {
     }
 }
 extend({MyCustomMaterial})
+
+export default MyCustomMaterial
 
 
