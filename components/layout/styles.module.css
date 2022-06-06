@@ -1,0 +1,8 @@
+.appContainer{
+    height: 100vh;
+    overflow: hidden;
+}
+.appScroller{
+    overflow: scroll;
+    height: 100%;
+}

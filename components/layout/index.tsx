@@ -1,5 +1,6 @@
 import {FC, ReactNode} from "react"
 import ThreeScreen from "../threeScreen"
+import styles from "./styles.module.css"
 
 interface Props {
   children: ReactNode;
@@ -7,10 +8,12 @@ interface Props {
 
 const Layout:FC<Props> = ({children}) => {
   return (
-    <>
+    <div id={"appContainer"} className={styles.appContainer}>
       <ThreeScreen />
-      {children}
-    </>
+      <div className={styles.appScroller}>
+        {children}  
+      </div>
+    </div>
   )
 }
 

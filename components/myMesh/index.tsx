@@ -1,5 +1,5 @@
-import { RootState, useThree } from "@react-three/fiber";
-import {FC, useRef, useEffect} from "react"
+import { useThree, useFrame } from "@react-three/fiber";
+import {FC, useRef} from "react"
 import * as THREE from "three"
 import myCustomMaterial from "./myCustomMaterial"
 
@@ -29,16 +29,20 @@ const MyMesh:FC = () => {
     const material = useRef<null | THREE.ShaderMaterial>(null)
     const vitualSceen = useThree()
 
+    //update vitual screen size on change and init
     const vitualScreenSize = getVirtualSceenSize(vitualSceen)
-
     if(material.current)
-    {
-        material.current!.uniforms.screenSize.value = new THREE.Vector2(vitualScreenSize.width, vitualScreenSize.height)
-    }
+        material.current.uniforms.uScreenSize.value = new THREE.Vector2(vitualScreenSize.width, vitualScreenSize.height)
+
+    //update utime
+    useFrame(({clock})=>{
+        if(material.current)
+            material.current.uniforms.uTime.value = clock.getElapsedTime()
+    })
 
     return (
         <mesh>
-            <planeBufferGeometry args={[1,1,10,10]} />
+            <planeBufferGeometry args={[1,1,25,25]} />
             <myCustomMaterial wireframe={true} ref={material} />
         </mesh>
     )
