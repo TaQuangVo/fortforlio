@@ -1,8 +1,8 @@
 .appContainer{
-    height: 100vh;
     overflow: hidden;
+    height: calc(100*var(--vh));
 }
 .appScroller{
     overflow: scroll;
-    height: 100%;
+    height: calc(100*var(--vh));
 }

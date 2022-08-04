@@ -1,0 +1,2 @@
+//npm.greensock.com/:_authToken=b7e0b471-4646-4e08-bc3c-56235cd57de0
+@gsap:registry=https://npm.greensock.com

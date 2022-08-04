@@ -1,0 +1,22 @@
+.container{
+    width: 100vw;
+    height: calc(100*var(--vh));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: auto;
+    background-color: #f8f8f8;
+}
+
+.container h2 {
+    font-size: calc(calc(100*var(--vh)) /50);
+    font-weight: 500;
+    display: flex;
+    overflow: hidden;
+}
+.container h2 svg {
+    height: calc(calc(100*var(--vh)) /90);
+    margin: auto;
+    transform: translateY(13%)
+}

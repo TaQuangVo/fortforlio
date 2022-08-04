@@ -1,6 +1,8 @@
 import {FC, ReactNode} from "react"
-import ThreeScreen from "../threeScreen"
+import dynamic from 'next/dynamic'
 import styles from "./styles.module.css"
+
+const ThreeScreenNoSSR = dynamic(() => import("../threeScreen"), {ssr:false})
 
 interface Props {
   children: ReactNode;
@@ -9,10 +11,8 @@ interface Props {
 const Layout:FC<Props> = ({children}) => {
   return (
     <div id={"appContainer"} className={styles.appContainer}>
-      <ThreeScreen />
-      <div className={styles.appScroller}>
-        {children}  
-      </div>
+      <ThreeScreenNoSSR />
+      {children}
     </div>
   )
 }

@@ -93,25 +93,21 @@ const vertexShader = ():string => {
                 }
 
                 varying vec2 vUv;
+                varying vec4 vTexCords;
                 uniform vec2 uScreenSize;
                 uniform float uTime;
-                uniform float uZoomProgress;
+                uniform float uIsLeft;
 
                 void main() {
-                    float Amp = .5;
-                    float ZPosition = .8;
-                    float noiseFreq = 1.5;
-                    float noiseAmp = 1.;
-
                     vUv = uv;
-                    vec3 pos = position * 0.5;
-
-                    vec3 noisePos = vec3(pos.x*noiseFreq+uTime, pos.y, pos.z);
-                    pos.z += snoise(noisePos) * noiseAmp * Amp * uZoomProgress;
+                    vec3 pos = position;
 
                     pos.xy *= uScreenSize;
+                    pos.x += uScreenSize.x/2.0*uIsLeft;
+                    
+                    vTexCords = projectionMatrix * modelViewMatrix *vec4(pos, 1.0);
 
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                    gl_Position = vTexCords;
                 }`
 }
 export default vertexShader
