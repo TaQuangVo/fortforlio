@@ -97,6 +97,7 @@ const vertexShader = ():string => {
                 uniform vec2 uScreenSize;
                 uniform float uTime;
                 uniform float uIsLeft;
+                uniform mat4 uSavedModelMatrix;
 
                 void main() {
                     vUv = uv;
@@ -105,9 +106,10 @@ const vertexShader = ():string => {
                     pos.xy *= uScreenSize;
                     pos.x += uScreenSize.x/2.0*uIsLeft;
                     
-                    vTexCords = projectionMatrix * modelViewMatrix *vec4(pos, 1.0);
 
-                    gl_Position = vTexCords;
+                    vTexCords = projectionMatrix * viewMatrix * uSavedModelMatrix * vec4(pos, 1.0);
+
+                    gl_Position = projectionMatrix * modelViewMatrix *vec4(pos, 1.0);
                 }`
 }
 export default vertexShader
