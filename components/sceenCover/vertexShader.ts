@@ -92,8 +92,20 @@ const vertexShader = ():string => {
                                                 dot(p2,x2), dot(p3,x3) ) );
                 }
 
+                vec3 distordPlane(vec3 plane, float uTime) {
+                    vec3 distordedPlane = plane;
+
+                    float wave1 = 0.05*sin(plane.x * 20. + uTime);
+                    wave1 += 0.05*sin(plane.y * 10. + uTime);
+
+                    distordedPlane.z += wave1;
+
+                    return distordedPlane;
+                }
+
                 varying vec2 vUv;
                 varying vec4 vTexCords;
+                varying vec3 vRecalcNormal;
                 uniform vec2 uScreenSize;
                 uniform float uTime;
                 uniform float uIsLeft;
@@ -101,15 +113,37 @@ const vertexShader = ():string => {
 
                 void main() {
                     vUv = uv;
-                    vec3 pos = position;
+                    vec3 scaledPos = position;
+                    vec3 distordPos;
 
-                    pos.xy *= uScreenSize;
-                    pos.x += uScreenSize.x/2.0*uIsLeft;
-                    
+                    scaledPos.xy *= uScreenSize;
+                    scaledPos.x += uScreenSize.x/2.0*uIsLeft;
 
-                    vTexCords = projectionMatrix * viewMatrix * uSavedModelMatrix * vec4(pos, 1.0);
+                    vTexCords = projectionMatrix * viewMatrix * uSavedModelMatrix * vec4(scaledPos, 1.0);
 
-                    gl_Position = projectionMatrix * modelViewMatrix *vec4(pos, 1.0);
+                    distordPos.xyz = distordPlane(scaledPos.xyz, uTime);
+
+                    //calculate nearby points.
+                    float factor = 0.001;
+
+                    //nearby points befor distord
+                    vec3 nearby1, nearby2;
+                    nearby1 = scaledPos.xyz;
+                    nearby2 = scaledPos.xyz;
+                    nearby1.x += factor;
+                    nearby2.y += factor;
+
+                    //nerby points after distored
+                    nearby1 = distordPlane(nearby1, uTime);
+                    nearby2 = distordPlane(nearby2, uTime);
+
+                    nearby1 -= distordPos.xyz;
+                    nearby2 -= distordPos.xyz;
+
+                    //normal of pos
+                    vRecalcNormal = cross(normalize(nearby1), normalize(nearby2));
+
+                    gl_Position = projectionMatrix * modelViewMatrix *vec4(distordPos, 1.0);
                 }`
 }
 export default vertexShader

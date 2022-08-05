@@ -68,23 +68,25 @@ function sceenCover () {
 
      //update utime
      useFrame(({clock})=>{
-        //if(materialL.current)
-            //materialL.current.uniforms.uTime.value = clock.getElapsedTime()
+        if(materialL.current)
+            materialL.current.uniforms.uTime.value = clock.getElapsedTime()
+        if(materialR.current)
+            materialR.current.uniforms.uTime.value = clock.getElapsedTime()
 
-        if(meshL.current)
-            meshL.current.position.x -= 0.0005
-        if(meshR.current)
-            meshR.current.position.x += 0.0005
+        //if(meshL.current)
+            //meshL.current.position.x -= 0.0005
+        //if(meshR.current)
+            //meshR.current.position.x += 0.0005
     })
 
     return (
         <>
             <mesh ref={meshL} position={[0,0,3]}>
-                <planeGeometry attach="geometry" args={[1, 1, 40, 40]} />
-                <customMaterial ref={materialL} attach="material" wireframe={false}/>
+                <planeGeometry attach="geometry" args={[1, 1, 160, 160]} />
+                <customMaterial ref={materialL} attach="material" wireframe={true}/>
             </mesh>
             <mesh ref={meshR} position={[0,0,3]}>
-                <planeGeometry attach="geometry" args={[1, 1, 40, 40]} />
+                <planeGeometry attach="geometry" args={[1, 1, 160, 160]} />
                 <customMaterial ref={materialR} attach="material"  wireframe={false}/>
             </mesh>
         </>
