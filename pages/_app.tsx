@@ -4,7 +4,22 @@ import type { AppProps } from 'next/app'
 import Layout from "../components/layout"
 import { useEffect } from 'react'
 
+//update css variables on change vh 
+const updateVh = () => {
+    console.log("updateVh")
+    const vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    updateVh()
+    window.addEventListener('resize', updateVh)
+    return () => {
+        window.removeEventListener('resize', updateVh)
+    }
+}, [])
+
   return (
     <Layout>
       <Head>
