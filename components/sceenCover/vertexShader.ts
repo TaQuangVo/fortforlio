@@ -106,6 +106,8 @@ const vertexShader = ():string => {
                 varying vec2 vUv;
                 varying vec4 vTexCords;
                 varying vec3 vRecalcNormal;
+                varying vec3 vFragPos;
+
                 uniform vec2 uScreenSize;
                 uniform float uTime;
                 uniform float uIsLeft;
@@ -117,11 +119,13 @@ const vertexShader = ():string => {
                     vec3 distordPos;
 
                     scaledPos.xy *= uScreenSize;
-                    scaledPos.x += uScreenSize.x/2.0*uIsLeft;
+                    scaledPos.x /= 2.;
+                    scaledPos.x += uScreenSize.x/4.0*uIsLeft;
 
                     vTexCords = projectionMatrix * viewMatrix * uSavedModelMatrix * vec4(scaledPos, 1.0);
 
                     distordPos.xyz = distordPlane(scaledPos.xyz, uTime);
+                    vFragPos = distordPos.xyz;
 
                     //calculate nearby points.
                     float factor = 0.001;

@@ -83,7 +83,7 @@ function sceenCover () {
         <>
             <mesh ref={meshL} position={[0,0,3]}>
                 <planeGeometry attach="geometry" args={[1, 1, 160, 160]} />
-                <customMaterial ref={materialL} attach="material" wireframe={true}/>
+                <customMaterial ref={materialL} attach="material" wireframe={false}/>
             </mesh>
             <mesh ref={meshR} position={[0,0,3]}>
                 <planeGeometry attach="geometry" args={[1, 1, 160, 160]} />

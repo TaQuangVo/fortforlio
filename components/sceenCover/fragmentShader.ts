@@ -1,11 +1,13 @@
 const fragmentShader = ():string => {
     return `
-        uniform float uTime;
         varying vec2 vUv;
-        uniform vec2 uResolution;
-        varying vec4 vTexCords;
-        uniform sampler2D uTexture;
         varying vec3 vRecalcNormal;
+        varying vec3 vFragPos;
+        varying vec4 vTexCords;
+
+        uniform sampler2D uTexture;
+        uniform float uTime;
+        uniform vec2 uResolution;
         uniform vec2 uTextureDimentions;
 
         vec2 preserveAspectRatioSlice(vec2 uv, vec2 screenSize, vec2 imageSize ){
@@ -29,10 +31,17 @@ const fragmentShader = ():string => {
 
             vec4 texture = texture2D(uTexture, uv);
 
-            float light = vRecalcNormal.r / 2.0;
-            vec3 textureWlight = texture.rgb - max(light,0.);
+            //lighing
+            vec3 lightPos = vec3(2., 1., 3);
+            vec3 lightColor = vec3(1.,1.,1.);
+            vec3 lightDir = normalize(lightPos - vFragPos); 
 
-            gl_FragColor = vec4(textureWlight, 1.0);
+            float diff = max(dot(vRecalcNormal, lightDir), 0.0);
+            vec3 diffuse = diff * lightColor;
+
+            vec3 result = diffuse * texture.rgb;
+
+            gl_FragColor = vec4(result, 1.0);
         }
     `
 }
