@@ -2,6 +2,7 @@ import * as THREE from "three"
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import "./customMaterial"
 import { useEffect, useRef } from "react"
+import * as dat from  "dat.gui";
 
 declare global {
     namespace JSX {
@@ -30,10 +31,27 @@ function sceenCover () {
     const vitualSceen = useThree()
     const isInitLoad = useRef(true)
 
+
+
     //load sceen texture
     const texture = useLoader(THREE.TextureLoader, "introTexture.jpg")
 
     useEffect(() => {
+        const gui = new dat.GUI()
+
+        const progress = {value: 0.0}
+
+        if(materialL.current){
+            gui
+            .add(progress, "value", 0, 1, 0.01).name("progress")
+            .onChange((value:number) => {
+                if(materialL.current && materialR.current){
+                    materialL.current.uniforms.uProgress.value = value
+                    materialR.current.uniforms.uProgress.value = value
+                }
+            })
+        }
+
         //update vitual screen size on change and init
         const vitualScreenSize = getVirtualSceenSize(vitualSceen)
         const actualScreensize = new THREE.Vector2(window.innerWidth, window.innerHeight)
@@ -68,10 +86,12 @@ function sceenCover () {
 
      //update utime
      useFrame(({clock})=>{
-        if(materialL.current)
+        if(materialL.current){
             materialL.current.uniforms.uTime.value = clock.getElapsedTime()
-        if(materialR.current)
+        }
+        if(materialR.current){
             materialR.current.uniforms.uTime.value = clock.getElapsedTime()
+        }
 
         //if(meshL.current)
             //meshL.current.position.x -= 0.0005

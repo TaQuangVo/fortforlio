@@ -80,8 +80,6 @@ function searchSceen() {
         }
     },[])
 
-
-    console.log("render Sceen")
     return (
         <Suspense fallback={null}>
             <primitive object={gltf.scene} />

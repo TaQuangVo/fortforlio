@@ -15,6 +15,7 @@ class CustomMaterial extends THREE.ShaderMaterial {
                 uTexture: {value:null},
                 uTextureDimentions: {value: new THREE.Vector2(0,0)},
                 uSavedModelMatrix: {value: new THREE.Matrix4()},
+                uProgress: {value: 0.0},
             },
             vertexShader: vertexShader(),
             fragmentShader: fragmentShader(),

@@ -9,6 +9,7 @@ const fragmentShader = ():string => {
         uniform float uTime;
         uniform vec2 uResolution;
         uniform vec2 uTextureDimentions;
+        uniform float uProgress;
 
         vec2 preserveAspectRatioSlice(vec2 uv, vec2 screenSize, vec2 imageSize ){
       
@@ -25,14 +26,16 @@ const fragmentShader = ():string => {
         }
         
         void main() {
-            vec2 uv = vTexCords.xy/vTexCords.w * 0.5 + 0.5;
+            vec3 one = vec3(1.0);
 
+            vec2 uv = vTexCords.xy/vTexCords.w * 0.5 + 0.5;
             uv = preserveAspectRatioSlice(uv, uResolution, uTextureDimentions);
 
-            vec4 texture = texture2D(uTexture, uv);
+            vec4 texture = texture2D(uTexture, uv + vFragPos.z * .05);
 
             //lighing
-            vec3 lightPos = vec3(2., 1., 3);
+            vec3 lightPos = vec3(3. ,2. , 10.);
+
             vec3 lightColor = vec3(1.,1.,1.);
             vec3 lightDir = normalize(lightPos - vFragPos); 
 
