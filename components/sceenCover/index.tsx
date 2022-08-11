@@ -1,8 +1,8 @@
 import * as THREE from "three"
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import "./customMaterial"
-import { useEffect, useRef } from "react"
-import * as dat from  "dat.gui";
+import { useEffect, useRef, forwardRef,MutableRefObject,ForwardedRef } from "react"
+
 
 declare global {
     namespace JSX {
@@ -23,40 +23,29 @@ const getVirtualSceenSize = (Sceen:any):THREE.Vector2 => {
     return new THREE.Vector2(width, height)
 }
 
-function sceenCover () {
-    const materialL = useRef<null | THREE.ShaderMaterial>(null)
-    const materialR = useRef<null | THREE.ShaderMaterial>(null)
+interface refInterface1 {
+    materialL: MutableRefObject<THREE.ShaderMaterial | null>,
+    materialR: MutableRefObject<THREE.ShaderMaterial | null>,
+}
+
+
+const sceenCover = (props:any, ref:any) => {
     const meshL = useRef<null | THREE.Mesh>(null)
     const meshR = useRef<null | THREE.Mesh>(null)
     const vitualSceen = useThree()
     const isInitLoad = useRef(true)
 
-
-
     //load sceen texture
     const texture = useLoader(THREE.TextureLoader, "introTexture.jpg")
 
     useEffect(() => {
-        const gui = new dat.GUI()
-
-        const progress = {value: 0.0}
-
-        if(materialL.current){
-            gui
-            .add(progress, "value", 0, 1, 0.01).name("progress")
-            .onChange((value:number) => {
-                if(materialL.current && materialR.current){
-                    materialL.current.uniforms.uProgress.value = value
-                    materialR.current.uniforms.uProgress.value = value
-                }
-            })
-        }
-
         //update vitual screen size on change and init
         const vitualScreenSize = getVirtualSceenSize(vitualSceen)
         const actualScreensize = new THREE.Vector2(window.innerWidth, window.innerHeight)
         const textDim = new THREE.Vector2(texture.image.width, texture.image.height)
 
+        const materialL:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialL
+        const materialR:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialR
 
         if(materialL.current){
             materialL.current.uniforms.uScreenSize.value = vitualScreenSize
@@ -86,6 +75,9 @@ function sceenCover () {
 
      //update utime
      useFrame(({clock})=>{
+        const materialL:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialL
+        const materialR:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialR
+
         if(materialL.current){
             materialL.current.uniforms.uTime.value = clock.getElapsedTime()
         }
@@ -103,14 +95,15 @@ function sceenCover () {
         <>
             <mesh ref={meshL} position={[0,0,3]}>
                 <planeGeometry attach="geometry" args={[1, 1, 160, 160]} />
-                <customMaterial ref={materialL} attach="material" wireframe={false}/>
+                <customMaterial ref={ref.current.materialL} attach="material" wireframe={false}/>
             </mesh>
             <mesh ref={meshR} position={[0,0,3]}>
                 <planeGeometry attach="geometry" args={[1, 1, 160, 160]} />
-                <customMaterial ref={materialR} attach="material"  wireframe={false}/>
+                <customMaterial ref={ref.current.materialR} attach="material"  wireframe={false}/>
             </mesh>
         </>
     )
 }
 
-export default sceenCover
+
+export default forwardRef(sceenCover)

@@ -9,13 +9,18 @@ const vertexShader = ():string => {
                     uv2.x = ((isLeft+1.0)/2.) - uv2.x;
 
                     //distord
-                    float wave1 = 0.03 * uv2.x * sin(pointPlane.x * 30. * (progress+.5) + uTime);
+                    float wave1 = 0.03 * (uv2.x*uv2.x) * sin(pointPlane.x * 30. * (progress+.5) + uTime);
                     distordedPlane.z += wave1*progress;
 
                     //open
-                    uv2.y = 1. - uv2.y;
-                    float open = (-1./ (5.*uv2.y + 3.) ) + 1.;
-                    distordedPlane.x += open*progress*isLeft*screenWidth*.8;
+                    //uv2.y = 1. - uv2.y;
+                    //float open = (-1./ (5.*uv2.y + 3.) ) + 1.;
+                    //distordedPlane.x += open*progress*isLeft*screenWidth*.8;
+
+                    float open = 0.99 * uv2.x + 1.;
+                    distordedPlane.x += open*progress*isLeft*screenWidth*.3;
+
+
 
                     //lift off
                     distordedPlane.y += progress*.05;

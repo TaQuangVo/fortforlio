@@ -1,12 +1,12 @@
 import { useLoader, useFrame, useThree } from '@react-three/fiber'
-import { Suspense, useEffect, useRef } from 'react'
+import { forwardRef, Suspense, useEffect, useRef } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from "three"
 import gsap from 'gsap'
 
     
 
-function searchSceen() {
+function searchSceen(props:any, ref:any) {
     const { camera, gl } = useThree()
     gl.outputEncoding = THREE.sRGBEncoding
 
@@ -16,6 +16,7 @@ function searchSceen() {
     const aboutText = useRef<Array<any>>([0,0,0,0,0])
 
     let gltf = useLoader(GLTFLoader, 'searchSceen.glb')
+    ref.current.gltf.current = gltf;
 
     //sceen texture
     const sceenTexture = useLoader(THREE.TextureLoader, 'blacknwhite.jpg')
@@ -58,8 +59,10 @@ function searchSceen() {
         }
     })
 
+    //sceen default position
     gltf.scene.scale.set(0.4,.4,.4)
     gltf.scene.position.set(0,-1.2,0)
+    gltf.scene.rotation.x = .15
 
     useFrame((frame) => {
         if(topCube.current)
@@ -87,4 +90,4 @@ function searchSceen() {
     )
   }
 
-export default searchSceen
+export default forwardRef(searchSceen)
