@@ -48,7 +48,7 @@ const ThreeScreen:FC = () => {
     }, [])
     
     return (
-        <div className={styles.container}>
+        <div className={[styles.container, "three_canvas"].join(" ")}>
             <Canvas camera={{ position:[0,0,4]}} >
                 <SceenCover ref={screenCoverRef}/>
                 <SearchSceen ref={searchSceenRef}/>

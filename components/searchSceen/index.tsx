@@ -75,7 +75,7 @@ function searchSceen(props:any, ref:any) {
         var tl = gsap.timeline()
 
         aboutText.current.forEach((text:any) => {
-            tl.from(text.scale, {duration:.3, x:0, y:0, z:0, ease:"power3.out"})
+            tl.from(text.scale, {duration:3, x:0, y:0, z:0, ease:"power3.out"})
         })
 
         return () => {

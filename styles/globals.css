@@ -4,12 +4,11 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   overscroll-behavior-y: none;
   position: fixed;
   overflow: hidden;
 }
-
 :root{
   --vh:1vh;
 }
@@ -32,5 +31,5 @@ a {
   white-space: pre;
 }
 .display-none{
-  display: none;
+  display: none !important;
 }

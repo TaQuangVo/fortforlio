@@ -12,7 +12,9 @@ const Layout:FC<Props> = ({children}) => {
   return (
     <div id={"appContainer"} className={styles.appContainer}>
       <ThreeScreenNoSSR />
-      {children}
+      <div className={styles.scroller_container}>
+        {children}
+      </div>
     </div>
   )
 }

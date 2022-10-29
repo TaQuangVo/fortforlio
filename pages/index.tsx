@@ -1,18 +1,14 @@
 import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 import PageIntro from '../components/pageIntro'
-
+import AboutSection from "../components/aboutSection"
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <div id="page-intro" className={styles.intro}>
-          <PageIntro />
-        </div>
-      </main>
-      
-    </div>
+    <main className={styles.container}>
+        <PageIntro />
+        <AboutSection />
+    </main>
   )
 }
 
