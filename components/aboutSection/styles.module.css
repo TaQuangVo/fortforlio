@@ -4,12 +4,13 @@
     overflow:hidden;
 }
 .section_in_animation{
-    height: 100vh;
+    height: 50vh;
     display: block;
     width: 100vw;
     position:relative;
 }
 .body{
+    opacity: 0;
     height: 100vh;
     width: 100vw;
     background-color: rgba(218, 218, 218, 0.603);
@@ -31,7 +32,7 @@
     left:15%;
     -webkit-text-fill-color: white; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 1.5px;
-    -webkit-text-stroke-color: rgba(52, 52, 52, 0.659);
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.791);
     transform:translate(0%, -80%);
     opacity: 50%;
 }

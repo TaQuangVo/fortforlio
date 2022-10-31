@@ -16,11 +16,10 @@ const  AboutSection = () => {
     const offer_text_ref = useRef(null)
 
     useEffect(() => {
-        console.log("added animation to about section")
         const tl = gsap.timeline({
             scrollTrigger:{
                 trigger:body_ref.current,
-                id: "about_section_body",
+                id: "about_section_body_st",
                 start:"0% 0%",
                 scrub:true,
                 pin:true,
@@ -32,37 +31,39 @@ const  AboutSection = () => {
                 }
             }
         })
+        .to(body_ref.current,{
+            autoAlpha:1,
+            duration:2,
+        },0)
         .to(webdev_text_ref.current,{
             duration:20,
             xPercent:-100,
-        },0)
+        },1)
         .to(skills_text_ref.current,{
             duration:20,
             xPercent:-160,
-        },0)
+        },1)
         .to(name_text_ref.current,{
             duration:20,
             xPercent:-660,
-        },0)
+        },1)
         .to(head_text_ref.current,{
             autoAlpha: 0,
             duration:1
-        },3)
+        },4)
         .to(backgound_text_ref.current,{
             autoAlpha: 0,
             duration:2
-        },9.5)
+        },10.5)
         .to(offer_text_ref.current,{
             autoAlpha: 1,
             duration:2
-        },11)
-
+        },12)
         
 
         return () => {
-            const t = ScrollTrigger.getById("about_section_body")
-            if(t)
-                t.kill()
+            const t = ScrollTrigger.getById("about_section_body_st")
+            t && t.kill()
             tl.kill();
         }
     },[])

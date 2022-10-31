@@ -78,11 +78,13 @@ function SearchSceen(props:any, ref:any) {
         var tl = gsap.timeline({
             scrollTrigger:{
                 trigger:"#section_in_animation",
-                start:"0% 0%"
+                start:"0% 0%",
+                end:"100% 0%",
+                scrub:true,
             }
         })
 
-        aboutText.current.forEach((text:any, i) => {
+        aboutText.current.forEach((text:any) => {
             tl.from(text.scale, {
                 duration:0.3, 
                 x:0, 
