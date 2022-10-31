@@ -2,11 +2,14 @@ import { useLoader, useFrame, useThree } from '@react-three/fiber'
 import { forwardRef, Suspense, useEffect, useRef } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as THREE from "three"
-import gsap from 'gsap'
+import { gsap } from "gsap/dist/gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger)
 
     
 
-function searchSceen(props:any, ref:any) {
+function SearchSceen(props:any, ref:any) {
     const { camera, gl } = useThree()
     gl.outputEncoding = THREE.sRGBEncoding
 
@@ -72,14 +75,38 @@ function searchSceen(props:any, ref:any) {
     })
 
     useEffect(() => {
-        var tl = gsap.timeline()
-
-        aboutText.current.forEach((text:any) => {
-            tl.from(text.scale, {duration:3, x:0, y:0, z:0, ease:"power3.out"})
+        var tl = gsap.timeline({
+            scrollTrigger:{
+                trigger:"#section_in_animation",
+                start:"0% 0%"
+            }
         })
 
+        aboutText.current.forEach((text:any, i) => {
+            tl.from(text.scale, {
+                duration:0.3, 
+                x:0, 
+                y:0, 
+                z:0, 
+                ease:"power3.out",
+            })
+        })
+
+        props.openSceenTl.fromTo(gltf.scene.position,{
+            z:-3.5,
+        },{
+            z:0,
+            duration:3
+        },0)
+        .fromTo(gltf.scene.rotation,{
+            x:0.65,
+        },{
+            x:0.15,
+            duration:3
+        },0)
         return () => {
             tl.kill()
+
         }
     },[])
 
@@ -90,4 +117,4 @@ function searchSceen(props:any, ref:any) {
     )
   }
 
-export default forwardRef(searchSceen)
+export default forwardRef(SearchSceen)

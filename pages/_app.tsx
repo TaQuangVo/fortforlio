@@ -5,18 +5,18 @@ import Layout from "../components/layout"
 import { useEffect } from 'react'
 
 //update css variables on change vh 
-const updateVh = () => {
+/*const updateVh = () => {
     console.log("updating --vh unit, !!!Use useRebounce to reduce the number of updates")
     const vh = window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
-}
+}*/
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    updateVh()
-    window.addEventListener('resize', updateVh)
+    //updateVh()
+    //window.addEventListener('resize', updateVh)
     return () => {
-        window.removeEventListener('resize', updateVh)
+        //window.removeEventListener('resize', updateVh)
     }
 }, [])
 

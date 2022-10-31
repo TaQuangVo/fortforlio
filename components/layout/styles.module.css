@@ -1,14 +1,4 @@
 .appContainer{
-    overflow: hidden;
     position: relative;
-    height: calc(100*var(--vh));
     width: 100vw
-}
-.scroller_container{
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: calc(100*var(--vh));
-    width: 100vw;
-    position:relative;
-    z-index: 99;
 }

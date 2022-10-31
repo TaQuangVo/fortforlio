@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'react';
 import styles from './styles.module.css'
-import gsap from 'gsap'
+import { gsap } from "gsap/dist/gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger)
 
-const  aboutPage = () => {
-    const webdev_text_ref = useRef(null)
+const  AboutSection = () => {
+    
+    const body_ref = useRef(null)
+    const webdev_text_ref = useRef<HTMLDivElement>(null)
     const skills_text_ref = useRef(null)
     const name_text_ref = useRef(null)
     const head_text_ref = useRef(null)
@@ -12,37 +16,53 @@ const  aboutPage = () => {
     const offer_text_ref = useRef(null)
 
     useEffect(() => {
-        let tl = gsap.timeline({
-            delay:10
+        console.log("added animation to about section")
+        const tl = gsap.timeline({
+            scrollTrigger:{
+                trigger:body_ref.current,
+                id: "about_section_body",
+                start:"0% 0%",
+                scrub:true,
+                pin:true,
+                end:()=>{
+                    let el = webdev_text_ref.current
+                    const r = el? "+=" + el.clientWidth : "+=2000"
+                    console.log(r);
+                    return r;
+                }
+            }
         })
         .to(webdev_text_ref.current,{
             duration:20,
             xPercent:-100,
-        })
-        .to(skills_text_ref.current, {
+        },0)
+        .to(skills_text_ref.current,{
             duration:20,
-            xPercent:-165,
-        }, 0)
+            xPercent:-160,
+        },0)
         .to(name_text_ref.current,{
             duration:20,
-            xPercent:-800,
-        }, 0)
+            xPercent:-660,
+        },0)
         .to(head_text_ref.current,{
-            duration: 1,
-            opacity:0
+            autoAlpha: 0,
+            duration:1
         },3)
         .to(backgound_text_ref.current,{
-            opacity:0,
-            duration:1,
-        },10)
+            autoAlpha: 0,
+            duration:2
+        },9.5)
         .to(offer_text_ref.current,{
-            opacity:100,
-            duration:1,
-        },10.5)
+            autoAlpha: 1,
+            duration:2
+        },11)
 
-
+        
 
         return () => {
+            const t = ScrollTrigger.getById("about_section_body")
+            if(t)
+                t.kill()
             tl.kill();
         }
     },[])
@@ -51,7 +71,7 @@ const  aboutPage = () => {
     return (
         <section className={[styles.container, "about"].join(" ")}>
             <span id="section_in_animation" className={styles.section_in_animation}></span>
-            <div className={styles.body}>
+            <div ref={body_ref} id="about_body" className={styles.body}>
                 <div className={styles.back_text}>
                     <span ref={webdev_text_ref} className={styles.big_text}>
                         <h2 id="webdev-text">WEB-DEVELOPPER</h2>
@@ -64,7 +84,7 @@ const  aboutPage = () => {
                     <div ref={head_text_ref} className={styles.head}>
                         <span/>
                         <p >
-                            I'm an all-in-one<br/>
+                            I&apos;m an all-in-one<br/>
                             solution for your<br/>
                             online presentation.
                         </p>
@@ -100,4 +120,4 @@ const  aboutPage = () => {
     )
 }
 
-export default aboutPage;
+export default AboutSection;

@@ -1,17 +1,20 @@
 .container{
-    /*background:rgb(247, 247, 247);*/
     position: relative;
+    max-width: 100vw;
+    overflow:hidden;
 }
 .section_in_animation{
-    height: calc(100*var(--vh));
+    height: 100vh;
     display: block;
     width: 100vw;
     position:relative;
 }
 .body{
-    height: calc(100*var(--vh));
+    height: 100vh;
     width: 100vw;
+    background-color: rgba(218, 218, 218, 0.603);
     position: relative;
+    overflow: hidden;
 }
 .back_text{
     position:absolute;
@@ -28,16 +31,16 @@
     left:15%;
     -webkit-text-fill-color: white; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 1.5px;
-    -webkit-text-stroke-color: rgb(52, 52, 52);
+    -webkit-text-stroke-color: rgba(52, 52, 52, 0.659);
     transform:translate(0%, -80%);
-    opacity: 30%;
+    opacity: 50%;
 }
 .name{
     position:absolute;
     left:25%;
     font-size: 1.5rem;
     font-weight: 600;
-    color:rgb(121, 121, 121);
+    color:rgb(108, 107, 107);
     bottom:0;
 }
 .big_text{
@@ -86,13 +89,14 @@
     font-size: 1.9rem;
     font-weight: 500;
     color:rgb(175, 1, 1);
+    text-shadow: -2px 2px 5px rgba(0, 0, 0, 0.464);
 }
 
 /*   main content   */
 
 .content{
     width:60%;
-    height:60%;
+    height:70%;
     margin:auto;
     display: flex;
     flex-direction: column;
@@ -118,17 +122,15 @@
     position:relative;
     width:100%;
 }
-.desc_body p:nth-child(2){
+.desc_body .offer_text{
     position: absolute;
+    opacity: 0%;
     top:0;
     left:0;
 }
 .desc_body p{
     font-size: 1rem;
     font-weight: 400;
-}
-.offer_text{
-    opacity: 0;
 }
 .desc_body .firstLine{
     display:flex;

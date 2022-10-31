@@ -2,11 +2,12 @@ import { useEffect, useRef } from 'react'
 import styles from './styles.module.css'
 import gsap from 'gsap'
 
-const pageIntro = () => {
+const PageIntro = () => {
 
     const initialLoad = useRef(true)
 
     useEffect(() => {
+        console.log("pageIntro useEffect runs")
         if(!initialLoad.current) 
             return
             
@@ -69,16 +70,15 @@ const pageIntro = () => {
             }
         },1)
 
-        
         initialLoad.current = false
     }, [])
 
     return (
         <div id="page-intro-container" className={[styles.container, "page-intro"].join(" ")}>
             <h2 className='intro__title intro__title--1'>Need Web-developers?</h2>
-            <h2 className='intro__title intro__title--2'>I'm All You Searching for!</h2>
+            <h2 className='intro__title intro__title--2'>I&apos;m All You Searching for!</h2>
         </div>
     )
 }
 
-export default pageIntro
+export default PageIntro

@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import "./customMaterial"
-import { useEffect, useRef, forwardRef,MutableRefObject,ForwardedRef } from "react"
+import { useEffect, useRef, forwardRef,MutableRefObject } from "react"
 
 
 declare global {
@@ -29,11 +29,10 @@ interface refInterface1 {
 }
 
 
-const sceenCover = (props:any, ref:any) => {
+const SceenCover = (props:any, ref:any) => {
     const meshL = useRef<null | THREE.Mesh>(null)
     const meshR = useRef<null | THREE.Mesh>(null)
     const vitualSceen = useThree()
-    const isInitLoad = useRef(true)
 
     //load sceen texture
     const texture = useLoader(THREE.TextureLoader, "introTexture.jpg")
@@ -47,34 +46,46 @@ const sceenCover = (props:any, ref:any) => {
         const materialL:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialL
         const materialR:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialR
 
-        if(materialL.current){
-            materialL.current.uniforms.uScreenSize.value = vitualScreenSize
-            materialL.current.uniforms.uResolution.value = actualScreensize
-            materialL.current.uniforms.uIsLeft.value = -1
-            materialL.current.uniforms.uTexture.value = texture
-            materialL.current.uniforms.uTextureDimentions.value = textDim
-        }
-        if(materialR.current){
-            materialR.current.uniforms.uScreenSize.value = vitualScreenSize
-            materialR.current.uniforms.uResolution.value = actualScreensize
-            materialR.current.uniforms.uIsLeft.value = 1
-            materialR.current.uniforms.uTexture.value = texture
-            materialR.current.uniforms.uTextureDimentions.value = textDim
+        if(!materialL.current || !materialR.current || !meshL.current || !meshR.current)
+            return
+        
+        materialL.current.uniforms.uScreenSize.value = vitualScreenSize
+        materialL.current.uniforms.uResolution.value = actualScreensize
+        materialL.current.uniforms.uIsLeft.value = -1
+        materialL.current.uniforms.uTexture.value = texture
+        materialL.current.uniforms.uTextureDimentions.value = textDim
+    
+        materialR.current.uniforms.uScreenSize.value = vitualScreenSize
+        materialR.current.uniforms.uResolution.value = actualScreensize
+        materialR.current.uniforms.uIsLeft.value = 1
+        materialR.current.uniforms.uTexture.value = texture
+        materialR.current.uniforms.uTextureDimentions.value = textDim
+    
+        meshL.current.updateMatrixWorld()
+        meshR.current.updateMatrixWorld()
+        materialL.current.uniforms.uSavedModelMatrix.value.copy(meshL.current.matrixWorld)
+        materialR.current.uniforms.uSavedModelMatrix.value.copy(meshR.current.matrixWorld)
 
-        }
-
-        if(isInitLoad.current && materialL.current && materialR.current && meshL.current && meshR.current)
-        {
-            meshL.current.updateMatrixWorld()
-            meshR.current.updateMatrixWorld()
-            materialL.current.uniforms.uSavedModelMatrix.value.copy(meshL.current.matrixWorld)
-            materialR.current.uniforms.uSavedModelMatrix.value.copy(meshR.current.matrixWorld)
-            isInitLoad.current = false
-        }
-    })
+        console.log("set open sceen animation from sceenCover")
+        props.openSceenTl
+        .fromTo(materialL.current.uniforms.uProgress,{
+            value:0
+        },{
+            value:1,
+            duration:3,
+        },0)
+        .fromTo(materialR.current.uniforms.uProgress,{
+            value:0
+        },{
+            value:1,
+            duration:3,
+        },0)
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
      //update utime
-     useFrame(({clock})=>{
+    useFrame(({clock})=>{
         const materialL:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialL
         const materialR:MutableRefObject<THREE.ShaderMaterial | null> = ref.current.materialR
 
@@ -84,11 +95,6 @@ const sceenCover = (props:any, ref:any) => {
         if(materialR.current){
             materialR.current.uniforms.uTime.value = clock.getElapsedTime()
         }
-
-        //if(meshL.current)
-            //meshL.current.position.x -= 0.0005
-        //if(meshR.current)
-            //meshR.current.position.x += 0.0005
     })
 
     return (
@@ -106,4 +112,4 @@ const sceenCover = (props:any, ref:any) => {
 }
 
 
-export default forwardRef(sceenCover)
+export default forwardRef(SceenCover)
