@@ -25,7 +25,7 @@ const  AboutSection = () => {
                 pin:true,
                 end:()=>{
                     let el = webdev_text_ref.current
-                    const r = el? "+=" + el.clientWidth : "+=2000"
+                    const r = el? "+=" + el.clientWidth*2 : "+=2000"
                     console.log(r);
                     return r;
                 }
